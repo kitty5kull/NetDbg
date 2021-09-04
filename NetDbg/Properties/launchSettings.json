@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NetDbg": {
+      "commandName": "Project",
+      "commandLineArgs": "< demo.txt"
+    }
+  }
+}

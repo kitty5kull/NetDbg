@@ -1,0 +1,14 @@
+# Caution: Tnetdbg will stop if it reads an empty line from stdin
+# Display the built-in help
+#
+help
+#
+# Bind to UDP 127.0.0.1:9091 and forward any packets from/to somehost.somewhere:9999
+udp foo 127.0.0.1 9091 somehost.somewhere 9999 base64
+# Bind to TCP 127.0.0.1:8080 and forward any connections and data from/to somehost.somewhere:80
+tcp bar 127.0.0.1 8080 somehost.somewhere 80 base64
+#
+# The proxy will automatically close when it recieves EOF on stdin
+# The sleep command comes handy to just keep it active (1 hour in this example)
+# Alternatively, you can just keep stdin open from the outside
+sleep 3600000
