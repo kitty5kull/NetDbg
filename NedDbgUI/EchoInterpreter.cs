@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Linq;
 using System.Text;
 using ProxyLib;
 using Encoder = ProxyLib.Encoder;
@@ -13,7 +14,18 @@ namespace NetDbgUI
 
 		public void SendCommand(string command)
 		{
-			InvokeCommand(command);
+			var split = command.Split(' ');
+
+			if ((split[0] == "in" || split[0] == "out") && split.Length > 2)
+			{
+				var buffer = Encoding.ASCII.GetBytes(string.Join(" ", split.Skip(2)) + Environment.NewLine);
+				InvokeCommand("packet echoproxy "+ split[1] + " " + split[0] + " "  + Encoder.EncodeHex(buffer, buffer.Length));
+			}
+			else
+			{
+				OutputLinePending?.Invoke(this, "Error parsing command. Usage: (in|out) <connection-number> <message>");
+				OutputLinePending?.Invoke(this, "\tInjects a message in the in- or outgoing stream of the specified connection.");
+			}
 		}
 
 		public void Init()
